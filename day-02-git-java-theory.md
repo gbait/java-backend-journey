@@ -41,3 +41,16 @@ if (edad > 30) {
 } else {
    // otro código
 }
+---
+
+## Relación con Data Centers
+
+Como diseñador eléctrico, entiendo:
+
+- N → capacidad justa
+- N+1 → redundancia con un equipo extra
+- 2N → duplicación completa del sistema
+
+Un rack puede consumir 10-15 kW.
+La refrigeración es uno de los mayores retos técnicos.
+El mayor riesgo real en un DC es el calor, no los hackers.
