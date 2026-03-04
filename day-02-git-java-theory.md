@@ -54,3 +54,36 @@ Como diseñador eléctrico, entiendo:
 Un rack puede consumir 10-15 kW.
 La refrigeración es uno de los mayores retos técnicos.
 El mayor riesgo real en un DC es el calor, no los hackers.
+---
+
+## Ejercicio Java Día 2
+
+Código:
+
+public class Principal {
+    public static void main(String[] args) {
+
+        int edad = 26;
+
+        if (edad > 30) {
+            System.out.println("Mayor de 30");
+        } else {
+            System.out.println("Menor o igual a 30");
+        }
+
+    }
+}
+
+### Explicación
+
+public class Principal
+→ Define una clase.
+
+public static void main
+→ Punto de entrada del programa.
+
+int edad = 26;
+→ Declaración de variable tipo entero.
+
+if (...) { }
+→ Estructura condicional.
