@@ -42,4 +42,17 @@ Los bucles permiten modelar sistemas repetitivos.
 La monitorización dde un DC funciona con lógica similar;
 Revisar automáticamente el estado de los componentes.
 
+---
+
+## Pensamiento arquitectónico:
+
+1)¿Qué pasa si un rack consume más?
+2) ¿Que pasa si un Rack falla?
+3) ¿Cómo se detectaría ese sistema?
+4) ¿Donde está el punto único de fallo?
+
+
+int [] consumos = {}
+
+
 
