@@ -126,21 +126,42 @@ if(consumoTotal > limiteTotal){
   }
 
 
-  Ahora Introducimos reglas y límites.
+  Ahora Introducimos reglas y límites. Es lógica de negocio real
+  Preparo el camino hacia sistemas de monitorización y control de infraestructuras.
 
+  A continuación presentaré una version del programa combinada de todo lo anterior.
+  Cada rack como consumo variable, detecta racks apagados, calcula total, lanza alertas si algún rack o el total excede el límite.
+  </> JAVA
+  
+  
+public class SimulacionDataCenter {
+  public static void main(string[] args) {
+  
+  int[] consumoRack = {8, 15, 0, 18, 7};
+  int limiteRack = 16; //kW
+  int limieTotal = 60; //kW
+  int consumoTotal = 0;
 
+  for (int i = 0; i < consumoRack.length; i++) {
+    int consumoActual = consumosRack[i];
+    System.out.println("Rack " + (i + 1) + "consumo: " + consumoActual + "kW");
+  if (consumoActual == 0) {
+    System.out.println("ALERTA: Rack " + (i + 1) + " está apagado o ha fallado");
+    }
+  if (consumoActual > limiteRack) {
+    System.put.println("ALERTA: Rack " + (i + 1) + " supera el límite permitido");
+    }
+  consumoTotal = ocnsumoTotal + consumoActual;
+}
 
+System.out.println("Consumo total del data center: " + consumoTotal + "kW");
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+if (consumoTotal > limiteTotal){
+  System.out.println("ALERTA CRÍTICA: El consumo total supera la capacidad del CPD");
+} else {
+  System.out.println("Consumo total dentro del límite permitido");
+  }
+ 
+ }
+}
+  
