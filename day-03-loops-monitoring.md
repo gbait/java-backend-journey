@@ -134,34 +134,41 @@ if(consumoTotal > limiteTotal){
   </> JAVA
   
   
-public class SimulacionDataCenter {
-  public static void main(string[] args) {
-  
-  int[] consumoRack = {8, 15, 0, 18, 7};
-  int limiteRack = 16; //kW
-  int limieTotal = 60; //kW
-  int consumoTotal = 0;
+public class DataCenterEnergySimulator {
 
-  for (int i = 0; i < consumoRack.length; i++) {
-    int consumoActual = consumosRack[i];
-    System.out.println("Rack " + (i + 1) + "consumo: " + consumoActual + "kW");
-  if (consumoActual == 0) {
-    System.out.println("ALERTA: Rack " + (i + 1) + " está apagado o ha fallado");
+    public static void main(String[] args) {
+
+        int rackCount = 5;
+        int hours = 24;
+
+        int baseConsumptionPerRack = 8;
+
+        int totalConsumption = 0;
+
+        System.out.println("Simulación de consumo energético del Data Center");
+
+        for (int hour = 1; hour <= hours; hour++) {
+
+            int hourConsumption = 0;
+
+            for (int rack = 1; rack <= rackCount; rack++) {
+
+                int rackConsumption = baseConsumptionPerRack + (rack * 2);
+
+                hourConsumption += rackConsumption;
+
+                System.out.println("Hora " + hour + " - Rack " + rack + " consumo: " + rackConsumption + " kW");
+
+            }
+
+            totalConsumption += hourConsumption;
+
+            System.out.println("Consumo total hora " + hour + ": " + hourConsumption + " kW");
+            System.out.println("--------------------------------");
+
+        }
+
+        System.out.println("Consumo total del día: " + totalConsumption + " kW");
+
     }
-  if (consumoActual > limiteRack) {
-    System.put.println("ALERTA: Rack " + (i + 1) + " supera el límite permitido");
-    }
-  consumoTotal = ocnsumoTotal + consumoActual;
 }
-
-System.out.println("Consumo total del data center: " + consumoTotal + "kW");
-
-if (consumoTotal > limiteTotal){
-  System.out.println("ALERTA CRÍTICA: El consumo total supera la capacidad del CPD");
-} else {
-  System.out.println("Consumo total dentro del límite permitido");
-  }
- 
- }
-}
-  
