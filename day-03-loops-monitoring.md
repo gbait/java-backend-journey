@@ -136,37 +136,44 @@ if(consumoTotal > limiteTotal){
   
 public class DataCenterEnergySimulator {
 
+  public class SimulacionDataCenter {
+
     public static void main(String[] args) {
 
-        int rackCount = 5;
-        int hours = 24;
+        int[] consumosRack = {8, 15, 0, 18, 7}; 
 
-        int baseConsumptionPerRack = 8;
+        int limiteRack = 16;
+        int limiteTotal = 60;
 
-        int totalConsumption = 0;
+        int consumoTotal = 0;
 
-        System.out.println("Simulación de consumo energético del Data Center");
+        for (int i = 0; i < consumosRack.length; i++) {
 
-        for (int hour = 1; hour <= hours; hour++) {
+            int consumoActual = consumosRack[i];
 
-            int hourConsumption = 0;
+            System.out.println("Rack " + (i + 1) + " consumo: " + consumoActual + " kW");
 
-            for (int rack = 1; rack <= rackCount; rack++) {
-
-                int rackConsumption = baseConsumptionPerRack + (rack * 2);
-
-                hourConsumption += rackConsumption;
-
-                System.out.println("Hora " + hour + " - Rack " + rack + " consumo: " + rackConsumption + " kW");
-
+            if (consumoActual == 0) {
+                System.out.println("ALERTA: Rack " + (i + 1) + " está apagado o ha fallado");
             }
 
-            totalConsumption += hourConsumption;
+            if (consumoActual > limiteRack) {
+                System.out.println("ALERTA: Rack " + (i + 1) + " supera el límite permitido");
+            }
 
-            System.out.println("Consumo total hora " + hour + ": " + hourConsumption + " kW");
-            System.out.println("--------------------------------");
-
+            consumoTotal = consumoTotal + consumoActual;
         }
+
+        System.out.println("Consumo total del Data Center: " + consumoTotal + " kW");
+
+        if (consumoTotal > limiteTotal) {
+            System.out.println("ALERTA CRÍTICA: El consumo total supera la capacidad del CPD");
+        } else {
+            System.out.println("Consumo total dentro del límite permitido");
+        }
+
+    }
+}
 
         System.out.println("Consumo total del día: " + totalConsumption + " kW");
 
