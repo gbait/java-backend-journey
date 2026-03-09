@@ -179,3 +179,47 @@ public class DataCenterEnergySimulator {
 
     }
 }
+
+
+
+Este programa simula un sistema básico de monitorización energética de un Data Center, detectando:
+
+racks apagados
+
+racks que superan el consumo permitido
+
+consumo total del CPD
+
+posibles sobrecargas eléctricas
+
+on este código estás usando cosas muy importantes:
+
+arrays (int[])
+
+bucles for
+
+condiciones if
+
+operadores (==, >)
+
+acumuladores
+
+salida por consola (System.out.println)
+
+lógica de control
+
+Esto es programación real básica.
+
+
+----
+
+
+Este ejercicio ya se parece mucho a software de monitorización real que se usa en:
+
+CPDs
+
+redes
+
+infraestructuras cloud
+
+herramientas tipo Zabbix o Prometheus
