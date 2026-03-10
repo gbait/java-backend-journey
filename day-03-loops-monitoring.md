@@ -134,13 +134,11 @@ if(consumoTotal > limiteTotal){
   </> JAVA
   
   
-public class DataCenterEnergySimulator {
-
-  public class SimulacionDataCenter {
+public class Day03LoopsMonitoring {
 
     public static void main(String[] args) {
 
-        int[] consumosRack = {8, 15, 0, 18, 7}; 
+        int[] consumosRack = {8, 15, 0, 18, 7};
 
         int limiteRack = 16;
         int limiteTotal = 60;
@@ -174,12 +172,6 @@ public class DataCenterEnergySimulator {
 
     }
 }
-
-        System.out.println("Consumo total del día: " + totalConsumption + " kW");
-
-    }
-}
-
 
 
 Este programa simula un sistema básico de monitorización energética de un Data Center, detectando:
