@@ -21,7 +21,7 @@ public class Day05DataCenterAnalysis { // definimos la clase ppal del programa
         minConsumo = consumoActual; //actualiza el mínimo
       }
     }
-    double promedio = (double) totalConsumo / consumos.length;    // calcula el consumo medio
+    double promedio = (double) totalConsumo / consumos.length;    // calcula el consumo medio se usa double porque puede tener decimales
     System.out.println("Total consumption: " + totalConsumo + " kW");
     System.out.println("Average consumption: " + promedio + " kW");
     System.out.println("Highest consumption: " + maxConsumo + " kW");
