@@ -1,31 +1,36 @@
-public class Day05DataCenterAnalysis { // definimos la clase ppal del programa
-  
-  public static void main (String[] args) { //punto donde comienza la ejecución dle programa
-    
-    int[] consumos = {4, 9, 12, 17, 0}; // lista de array con los consumos eletricos de los racks
+public class Day05DataCenterAnalysis {
 
-    int totalConsumo = 0; //variabñe que acumula el consumo total
-    int maxConsumo = consumos[0]; //inicializa el consumo máximo con el primer rack
-    int minConsumo = consumos[0]; // inicializa el consumo mínimo
+    public static void main(String[] args) {
 
-    for (int i = 0; i < consumos.length; i++) { // bucle que recorre todos los racks
+        int[] consumos = {4, 9, 12, 17, 0};
+        int totalConsumo = 0;
+        int maxConsumo = consumos[0];
+        int minConsumo = consumos[0];
 
-      int consumoActual = consumos[i]; // obtiene el consumo dle rack actual
+        for (int i = 0; i < consumos.length; i++) {
+            int consumoActual = consumos[i];
+            totalConsumo = totalConsumo + consumoActual;
 
-      totalConsumo = totalConsumo + consumoActual; // va sumando los consumos
+            if (consumoActual > maxConsumo) {
+                maxConsumo = consumoActual;
+            }                                    // cierra el if del máximo
 
-      if (consumoActual > maxConsumo) { //comprueba si el rack actual tiene más consumo que el máximo guardado
-        maxConsumo = consumoActual; //actualiza el máximo si sí
-      }
-      if (consumoActual < minConsumo) { //comprueba si el rack tiene menos consumo que le mínimo guardado
-        minConsumo = consumoActual; //actualiza el mínimo
-      }
-    }
-    double promedio = (double) totalConsumo / consumos.length;    // calcula el consumo medio se usa double porque puede tener decimales
-    System.out.println("Total consumption: " + totalConsumo + " kW");
-    System.out.println("Average consumption: " + promedio + " kW");
-    System.out.println("Highest consumption: " + maxConsumo + " kW");
-    System.out.println("Lowest consumption: " + minConsumo + " kW");
+            if (consumoActual < minConsumo) {
+                minConsumo = consumoActual;
+            }                                    // cierra el if del mínimo
 
-  }
-}
+            // Línea de depuración
+            System.out.println("i=" + i + " | actual=" + consumoActual + " | max=" + maxConsumo + " | min=" + minConsumo);
+
+        }                                        // cierra el for
+
+        double promedio = (double) totalConsumo / consumos.length;
+
+        System.out.println("Total consumption: " + totalConsumo + " kW");
+        System.out.println("Average consumption: " + promedio + " kW");
+        System.out.println("Highest consumption: " + maxConsumo + " kW");
+        System.out.println("Lowest consumption: " + minConsumo + " kW");
+
+    }                                            // cierra el main
+
+}                                                // cierra la clase
