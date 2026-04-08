@@ -1,49 +1,141 @@
-Day 07 - User Input with Scanner & Method Extraction
-Concepts Covered
+# Day 07 - How to Read User Input with Scanner
 
-Importing external classes with import
-Reading user input with Scanner
-The nextLine() vs nextInt() buffer trap
-Converting Strings to integers with Integer.parseInt()
-Extracting logic into separate methods
-Java is case-sensitive: String vs string, Integer vs integer
+## What Did We Learn Today?
+Until now all our programs worked with data we wrote directly in the code, like arrays with fixed numbers. Today we take an important step: **making the user enter data while the program is running.**
 
+For that Java has a tool called `Scanner`.
 
-Key Theory
-The Scanner Class
-Scanner is not available by default. It must be imported before the class declaration:
-javaimport java.util.Scanner;
-To create a Scanner that reads from the keyboard:
-javaScanner scanner = new Scanner(System.in);
-System.in tells the Scanner to listen to keyboard input. Always close it when finished:
-javascanner.close();
-print vs println
-MethodBehaviourSystem.out.print()Prints text, cursor stays on the same lineSystem.out.println()Prints text, cursor moves to the next line
-Use print for input prompts so the user types on the same line as the question.
-The Buffer Trap — Why Always Use nextLine()
-nextInt() reads the number but leaves the \n (Enter key) sitting in the buffer. The next nextLine() call consumes that leftover \n instead of waiting for the user, silently skipping the question.
-The safe pattern — always use nextLine() and convert manually:
-javaint traffic = Integer.parseInt(scanner.nextLine());
-This reads the full line including the Enter, so the buffer is always clean.
-Integer.parseInt()
-Converts a String to an int. Works from the inside out:
-java// Step 1: scanner.nextLine() returns "350" as a String
-// Step 2: Integer.parseInt("350") converts it to the int 350
+---
+
+## What is Scanner and Why Do We Need to Import It?
+
+Think of Java as a toolbox. The hammer and screwdriver are always there. But Scanner is a special tool stored in a different drawer — you need to go get it before using it. That is exactly what `import` does:
+
+```java
+import java.util.Scanner;  // Tell Java: "go and fetch the Scanner"
+```
+
+This line always goes first, before the class declaration. Without it Java does not know what `Scanner` is and throws an error.
+
+---
+
+## Creating the Scanner
+
+```java
+Scanner scanner = new Scanner(System.in);
+```
+
+Here we are creating the Scanner object. There are three parts:
+- `Scanner` — the type of object we are creating
+- `scanner` — the name we give it (could be any name)
+- `new Scanner(System.in)` — creates it and tells it to listen to the keyboard. `System.in` means "system input", which is the keyboard.
+
+---
+
+## `print` vs `println` — An Important Difference
+
+When asking the user a question we use `print` instead of `println`:
+
+```java
+System.out.print("Enter server name: ");   // cursor stays on the same line
+System.out.println("Enter server name: "); // cursor moves to the next line
+```
+
+With `print` the user types right after the colon, on the same line. With `println` the cursor would drop down and it would look odd. For user prompts, always use `print`.
+
+---
+
+## Reading What the User Types
+
+```java
+String serverName = scanner.nextLine();
+```
+
+`nextLine()` waits for the user to type something and press Enter. Everything they typed, including spaces, gets stored in the variable `serverName`.
+
+---
+
+## The Most Important Concept of the Day — The Buffer Trap
+
+This is a concept **Oracle puts on the exam** that confuses a lot of people.
+
+When the user types a number and presses Enter, Java actually receives two things:
+- The number: `350`
+- The newline character from the Enter key: `\n`
+
+If you use `nextInt()` to read the number, Java takes the `350` but **leaves the `\n` sitting in the buffer**. When the next `nextLine()` comes along, instead of waiting for the user to type, it consumes that leftover `\n` and moves on. The result is that a question gets silently skipped.
+
+The solution is to **never use `nextInt()` directly**. Instead always read with `nextLine()` and convert the text to a number manually:
+
+```java
+// ❌ Dangerous — leaves \n in the buffer
+int traffic = scanner.nextInt();
+
+// ✅ Safe — reads the full line and converts it
 int traffic = Integer.parseInt(scanner.nextLine());
-Case Sensitivity — A Common Source of Errors
-Java distinguishes uppercase and lowercase everywhere. These are the most common mistakes:
-Wrong ❌Correct ✅WhystringStringIt is a class, not a primitiveintegerIntegerIt is a class, not a primitiveLocationlocationMust match the variable declaration exactly
-Method Extraction
-Logic can be moved into a separate method to keep main clean and readable. A method outside main but inside the class must be static to be callable from main:
-javapublic static String analyzeTraffic(int traffic) {
+```
+
+---
+
+## What Does `Integer.parseInt()` Do?
+
+Scanner always returns text, even if the user typed a number. `"350"` as text and `350` as a number are different things in Java — you cannot do math with text.
+
+`Integer.parseInt()` takes that text and converts it to a real integer:
+
+```java
+// Step 1: scanner.nextLine() receives "350" → it is a String, plain text
+// Step 2: Integer.parseInt("350") converts it → now it is the number 350
+int traffic = Integer.parseInt(scanner.nextLine());
+```
+
+---
+
+## Uppercase and Lowercase — Java Is Very Strict
+
+Java distinguishes uppercase and lowercase in absolutely everything. These are the mistakes we made today:
+
+| Wrong ❌ | Correct ✅ | Explanation |
+|---|---|---|
+| `integer.parseInt()` | `Integer.parseInt()` | `Integer` is a class and classes start with uppercase |
+| `public static string` | `public static String` | Same reason, `String` is a class |
+| `+ Location` | `+ location` | The variable was declared in lowercase, it must match exactly |
+
+Easy rule to remember: primitive types are lowercase (`int`, `double`, `boolean`). When they are classes they are uppercase (`Integer`, `String`, `Boolean`).
+
+---
+
+## Closing the Scanner
+
+```java
+scanner.close();
+```
+
+When you are done using it you must close it to free up resources. Think of it like turning off a tap when you finish using it. Oracle asks about this in the exam under the concept of **resource management**.
+
+---
+
+## Extracting Logic Into a Separate Method
+
+Instead of putting everything inside `main`, we moved the analysis logic into its own method. This keeps the code clean and easy to read:
+
+```java
+public static String analyzeTraffic(int traffic) {
     if (traffic == 0)        return "PORT DOWN";
     else if (traffic <= 200) return "NORMAL";
     else if (traffic <= 500) return "HIGH TRAFFIC";
     else                     return "CRITICAL TRAFFIC";
 }
+```
 
-The Program
-javaimport java.util.Scanner;
+The method receives a number (`int traffic`) and returns a text (`String`) with the status. It has `static` because it is called from `main`, which is also `static`. Keep that rule for now — when we get to object oriented programming you will understand it fully.
+
+---
+
+## Full Program
+
+```java
+import java.util.Scanner;
 
 public class Day07UserInputMonitoring {
 
@@ -75,29 +167,8 @@ public class Day07UserInputMonitoring {
         else                     return "CRITICAL TRAFFIC";
     }
 }
+```
 
-Console Output Example
-Enter server name: WebServer-01
-Enter traffic (Mbps): 350
-Enter location: Madrid-DC
+---
 
---- SERVER REPORT ---
-Server:   WebServer-01
-Location: Madrid-DC
-Status:   HIGH TRAFFIC
-
-Errors Made Today & Lessons Learned
-
-integer.parseInt() → must be Integer.parseInt() — classes are always capitalised
-string as return type → must be String — same reason
-Location instead of location → Java is case-sensitive, variable names must match exactly
-Missing } in Day06 → always check that every opening brace has its closing brace
-Missing ; in Day06 array declaration → every statement ends with a semicolon
-
-
-Oracle Exam Traps to Remember
-
-nextInt() leaves \n in the buffer — always prefer nextLine() + Integer.parseInt()
-String and Integer are classes (uppercase). int, double, boolean are primitives (lowercase)
-A method called from main must be static if it lives in the same class
-scanner.close() is good practice — expect questions about resource management in the exam
+## Console Output Example
