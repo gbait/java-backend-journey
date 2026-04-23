@@ -1,5 +1,5 @@
 # Oracle Exam Key Notes
-> This file is updated daily with the most important concepts and traps for the Oracle Java Certification exam.
+> Updated daily with the most important concepts and traps for the Oracle Java Certification exam (1Z0-829).
 
 ---
 
@@ -28,9 +28,31 @@
 |---|---|---|
 | `String` | Text | `String name = "Server";` |
 | `Integer` | Whole number as object | `Integer.parseInt("350")` |
-| `Boolean` | True or false as object | rarely used directly |
+| `Double` | Decimal number as object | `Double.parseDouble("2.5")` |
 
-> **Exam trap:** `string` does not exist. `String` does. Same with `integer` vs `Integer`.
+> **Exam trap:** `string`, `integer`, `double` in lowercase do not exist as classes. Always uppercase.
+
+---
+
+## Type Conversion
+
+| Converts to | Method | Example |
+|---|---|---|
+| `int` | `Integer.parseInt()` | `Integer.parseInt("350")` |
+| `double` | `Double.parseDouble()` | `Double.parseDouble("2.5")` |
+| `long` | `Long.parseLong()` | `Long.parseLong("123456")` |
+
+---
+
+## Integer Division and Casting
+
+When dividing two integers Java rounds down and loses decimals:
+```java
+850 / 1000           // result: 0  ← decimals lost
+(double) 850 / 1000  // result: 0.85 ← cast forces decimal division
+```
+
+> **Exam trap:** Oracle shows division operations and asks for the result. Always check if both values are integers.
 
 ---
 
@@ -38,13 +60,8 @@
 
 - Must be declared before use
 - Name must match exactly everywhere, including uppercase and lowercase
-- Declaring inside a block `{}` means it only exists inside that block
-
-```java
-int x = 5;      // declared and initialised
-int y;           // declared but not initialised — cannot be used until assigned
-y = 10;          // now it can be used
-```
+- Variables declared inside a block `{}` only exist inside that block (local scope)
+- Method parameters are local variables — they only exist inside that method
 
 ---
 
@@ -80,15 +97,13 @@ int max = 0;        // wrong — fails if all values are negative
 | `+` | Addition | `5 + 3 = 8` |
 | `-` | Subtraction | `5 - 3 = 2` |
 | `*` | Multiplication | `5 * 3 = 15` |
-| `/` | Division | `5 / 2 = 2` (integer division, no decimals) |
+| `/` | Division | `5 / 2 = 2` (integer division) |
 | `%` | Remainder | `5 % 2 = 1` |
-
-> **Exam trap:** `5 / 2 = 2` in Java, not `2.5`. To get decimals use `(double) 5 / 2 = 2.5`
 
 ### Increment and Decrement
 ```java
-attempts++;   // same as attempts = attempts + 1, returns value BEFORE adding
-++attempts;   // same as attempts = attempts + 1, returns value AFTER adding
+attempts++;   // returns value BEFORE adding 1
+++attempts;   // returns value AFTER adding 1
 ```
 > **Exam trap:** Oracle tests the difference between `x++` and `++x` inside expressions
 
@@ -124,29 +139,28 @@ Always import before the class:
 import java.util.Scanner;
 ```
 
-### The buffer trap — most important rule
+### The buffer trap
 **Never use `nextInt()` if you are going to use `nextLine()` afterwards.**
-`nextInt()` reads the number but leaves `\n` in the buffer. The next `nextLine()` consumes it silently, skipping the question.
 
 ```java
-// ❌ Dangerous
+// ❌ Dangerous — leaves \n in the buffer
 int number = scanner.nextInt();
-String text = scanner.nextLine(); // this gets skipped
+String text = scanner.nextLine(); // gets skipped
 
-// ✅ Safe — always use nextLine() and convert manually
+// ✅ Safe
 int number = Integer.parseInt(scanner.nextLine());
 String text = scanner.nextLine(); // works correctly
 ```
 
 ### `print` vs `println`
 ```java
-System.out.print("text");    // cursor stays on the same line
-System.out.println("text");  // cursor moves to the next line
+System.out.print("text");    // cursor stays on the same line — use for user prompts
+System.out.println("text");  // cursor moves to next line — use for results and headers
 ```
 
 ### Always close the Scanner
 ```java
-scanner.close(); // frees system resources — Oracle asks about resource management
+scanner.close();
 ```
 
 ---
@@ -154,16 +168,16 @@ scanner.close(); // frees system resources — Oracle asks about resource manage
 ## Control Flow
 
 ### if / else if / else
+Use when comparing **ranges** or **complex conditions**:
 ```java
-if (condition) {
-    // executes if condition is true
-} else if (otherCondition) {
-    // executes if otherCondition is true
+if (traffic <= 200) {
+    return "NORMAL";
+} else if (traffic <= 500) {
+    return "HIGH";
 } else {
-    // executes if nothing above was true
+    return "CRITICAL";
 }
 ```
-Use when comparing **ranges** or **complex conditions**.
 
 ---
 
@@ -176,30 +190,24 @@ Use when comparing **ranges** or **complex conditions**.
 | `while` | At the beginning | 0 times |
 | `do-while` | At the end | **Always 1 time** |
 
-> **Exam trap:** Oracle asks "how many times does this block execute?" — the answer depends on which loop is used
+> **Exam trap:** Oracle asks "how many times does this block execute?"
 
-### for loop
-Use when you know exactly how many times to repeat:
+### for loop — use when you know the exact number of repetitions
 ```java
 for (int i = 0; i < array.length; i++) {
     // executes array.length times
 }
 ```
 
-### while loop
-Use when you do not know how many times — repeats while condition is true:
+### while loop — use when you do not know how many times
 ```java
+String command = ""; // initialise before the loop
 while (!command.equals("exit")) {
     command = scanner.nextLine();
 }
 ```
-Always initialise the variable before the loop:
-```java
-String command = ""; // must exist before the while reads it
-```
 
-### do-while loop
-Use when the block must execute at least once:
+### do-while loop — use when the block must execute at least once
 ```java
 do {
     // always executes at least once
@@ -216,9 +224,6 @@ switch (variable) {
     case 1:
         // code
         break;
-    case 2:
-        // code
-        break;
     default:
         // executes if no case matches
 }
@@ -231,25 +236,15 @@ switch (variable) {
 - `switch` does **NOT** accept: `double`, `float`, `long`
 
 ### Fall-through — most tested switch trap
-Without `break`, Java keeps executing the next case even if it does not match:
 ```java
 case 1:
     System.out.println("ONE");
-    // no break — falls through
+    // no break — falls through to case 2
 case 2:
     System.out.println("TWO");
     break;
 ```
-If variable is `1`, output is:
-ONE
-TWO
-
-### switch vs if/else
-| Situation | Use |
-|---|---|
-| Exact value comparison | `switch` |
-| Range comparison like `x <= 200` | `if/else` |
-| Complex conditions with `&&` or `||` | `if/else` |
+If variable is `1`, output is `ONE` then `TWO`.
 
 ---
 
@@ -258,30 +253,44 @@ TWO
 ### Declaring a method
 ```java
 public static String analyzeTraffic(int traffic) {
-    // code
     return "result";
 }
 ```
 - `public` — anyone can call this method
-- `static` — required to call it from `main` which is also static
-- `String` — the type of value the method returns
-- `analyzeTraffic` — the method name
-- `(int traffic)` — the parameter it receives
+- `static` — required to call from `main`
+- `String` — return type
+- `(int traffic)` — parameter, local to this method
 
-### void methods
-If a method does not return anything, use `void`:
+### Multiple parameters
 ```java
-public static void printReport() {
-    System.out.println("Report");
-    // no return needed
+public static double calculateUsage(int total, int used) {
+    return (double) used / total * 100;
+}
+```
+- Parameters separated by commas
+- Order matters when calling the method
+- Each parameter is a local variable
+
+### Code reuse — a method can call another method
+```java
+public static String getStatus(int total, int used) {
+    double usage = calculateUsage(total, used); // calling another method
+    // ...
 }
 ```
 
-> **Exam trap:** A method declared with a return type MUST always return a value on every possible path
+### void methods — no return value
+```java
+public static void printReport() {
+    System.out.println("Report");
+}
+```
+
+> **Exam trap:** A method declared with a return type MUST return a value on every possible path
 
 ---
 
-## Common Compilation Errors and Their Causes
+## Common Compilation Errors
 
 | Error | Most likely cause |
 |---|---|
@@ -289,5 +298,5 @@ public static void printReport() {
 | `reached end of file while parsing` | Missing closing brace `}` |
 | `cannot find symbol` | Variable name typo or wrong uppercase/lowercase |
 | `unclosed string literal` | Missing closing quote `"` |
-| `illegal start of statement` | Brace `}` in wrong place or missing |
-| `'else' without 'if'` | Missing closing brace `}` before else |
+| `illegal start of statement` | Brace `}` in wrong place |
+| `class expected` | Lowercase class name e.g. `double.parseDouble` |
