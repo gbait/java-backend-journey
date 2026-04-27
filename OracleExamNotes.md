@@ -347,3 +347,50 @@ if (name.equals("Server"))
 - **`indexOf()` returns `-1`** when not found, does not throw an error
 - **`contains()` is case sensitive** — `"error".contains("ERROR")` → `false`
 - **`toUpperCase()` before comparing** — normalises input regardless of how user typed it
+
+
+---
+
+## Type Casting
+
+### Two types of casting
+| Type | Name | Automatic? | Direction |
+|---|---|---|---|
+| Small → large | Widening | ✅ Yes | `int → double` |
+| Large → small | Narrowing | ❌ No, manual | `double → int` |
+
+### Type size order — smallest to largest
+byte → short → int → long → float → double
+Going right is automatic. Going left must be forced with `(type)`.
+
+### Widening — automatic
+```java
+int x = 1500;
+double d = x; // Java does it automatically, no cast needed
+```
+
+### Narrowing — manual, truncates decimals
+```java
+double d = 99.9;
+int x = (int) d; // forced with (int) — result is 99, NOT 100
+```
+
+### String conversions
+```java
+Integer.parseInt("350")      // String → int
+Double.parseDouble("9.9")    // String → double
+String.valueOf(350)           // int → String
+```
+
+### Overflow
+```java
+int maxInt = Integer.MAX_VALUE; // 2,147,483,647
+maxInt + 1;                     // result: -2,147,483,648
+```
+
+### Key casting exam traps
+- **Narrowing truncates, never rounds** → `(int) 9.9 = 9` not `10`
+- **Widening compiles without cast** — Oracle asks "does this compile?" Small to large: yes. Large to small without cast: no
+- **Overflow wraps around** → exceeding MAX_VALUE gives MIN_VALUE
+- **`Integer.MAX_VALUE`** → `2147483647`
+- **`Integer.MIN_VALUE`** → `-2147483648`
