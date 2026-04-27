@@ -394,3 +394,34 @@ maxInt + 1;                     // result: -2,147,483,648
 - **Overflow wraps around** → exceeding MAX_VALUE gives MIN_VALUE
 - **`Integer.MAX_VALUE`** → `2147483647`
 - **`Integer.MIN_VALUE`** → `-2147483648`
+
+## Exception Handling
+
+### Basic structure
+```java
+try {
+    // code that could fail
+} catch (ErrorType e) {
+    // handle the error
+} finally {
+    // always executes, error or not
+}
+```
+
+### Most important exceptions
+| Exception | When it occurs |
+|---|---|
+| `NumberFormatException` | `Integer.parseInt("abc")` — text is not a number |
+| `ArrayIndexOutOfBoundsException` | Index does not exist in the array |
+| `NegativeArraySizeException` | Array created with negative size |
+| `ArithmeticException` | Division by zero |
+| `NullPointerException` | Using an object that is `null` |
+| `ClassCastException` | Incorrect casting between incompatible types |
+
+### Key exception exam traps
+- **`finally` always executes** — even with a `return` inside `try` or `catch`
+- **Only one `catch` executes** — the first one that matches
+- **Order of `catch` matters** — parent exception before child means child never executes
+- **`e.getMessage()`** returns the error message as a String
+- **`try` without `catch` is valid** if it has `finally` — Oracle asks if this compiles
+- **`try` must have at least one `catch` OR `finally`** — a bare `try` alone does not compile
