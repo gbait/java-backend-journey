@@ -300,3 +300,50 @@ public static void printReport() {
 | `unclosed string literal` | Missing closing quote `"` |
 | `illegal start of statement` | Brace `}` in wrong place |
 | `class expected` | Lowercase class name e.g. `double.parseDouble` |
+
+¡Aquí tienes solo el bloque nuevo para añadir al final del OracleExamNotes.md!
+markdown---
+
+## Strings
+
+### Strings are immutable
+Every String method returns a **new copy** — the original is never modified:
+```java
+String log = "error";
+log.toUpperCase();                // does NOT change log
+String upper = log.toUpperCase(); // must save the result
+```
+
+> **Exam trap:** If you do not save the result of a String method, it is lost forever.
+
+### Never use == to compare Strings
+```java
+// ❌ Wrong — compares memory addresses
+if (name == "Server")
+
+// ✅ Correct — compares actual content
+if (name.equals("Server"))
+```
+
+### String methods summary
+| Method | Returns | Example |
+|---|---|---|
+| `length()` | Number of characters | `"ERROR".length()` → `5` |
+| `toUpperCase()` | Uppercase copy | `"error".toUpperCase()` → `"ERROR"` |
+| `toLowerCase()` | Lowercase copy | `"ERROR".toLowerCase()` → `"error"` |
+| `trim()` | Copy without edge spaces | `"  hi  ".trim()` → `"hi"` |
+| `contains()` | `true` / `false` | `"ERROR".contains("ERR")` → `true` |
+| `startsWith()` | `true` / `false` | `"ERROR".startsWith("ERR")` → `true` |
+| `endsWith()` | `true` / `false` | `"ERROR".endsWith("OR")` → `true` |
+| `replace()` | Copy with substitution | `"ERROR".replace("E","A")` → `"ARROR"` |
+| `indexOf()` | Position or `-1` | `"ERROR".indexOf("R")` → `2` |
+| `substring()` | Piece of the String | `"ERROR".substring(1,3)` → `"RR"` |
+| `isEmpty()` | `true` / `false` | `"".isEmpty()` → `true` |
+| `equals()` | `true` / `false` | `"ERROR".equals("error")` → `false` |
+
+### Key String exam traps
+- **`length()` needs parentheses** — `string.length()` vs `array.length`
+- **`substring(start, end)`** — start inclusive, end exclusive. `"ERROR".substring(1,3)` → `"RR"` not `"RRO"`
+- **`indexOf()` returns `-1`** when not found, does not throw an error
+- **`contains()` is case sensitive** — `"error".contains("ERROR")` → `false`
+- **`toUpperCase()` before comparing** — normalises input regardless of how user typed it
