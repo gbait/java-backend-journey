@@ -301,8 +301,7 @@ public static void printReport() {
 | `illegal start of statement` | Brace `}` in wrong place |
 | `class expected` | Lowercase class name e.g. `double.parseDouble` |
 
-¡Aquí tienes solo el bloque nuevo para añadir al final del OracleExamNotes.md!
-markdown---
+
 
 ## Strings
 
